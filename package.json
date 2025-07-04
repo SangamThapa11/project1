@@ -1,0 +1,37 @@
+{
+  "name": "project1",
+  "version": "1.0.0",
+  "description": "- 3 types of packages\r     - dependency  \r     - global dependency  -g\r     - Dev dependency     -D\r         - 3 environment\r             -development\r             -testing\r                 -staging\r                 -UAT\r             -production\r ## software design pattern \r     -Singleton\r     -Factory\r     -Repository\r     - Service based\r ## MVC Pattern\r  -MVC\r    - Model-View- Controller\r    - Layer\r    - Data layer\r     -model \r    -logical layer\r      - Controller\r    - Presentation layer\r      -view\r ## Modular Pattern\r    - Featured break \r ## Service based",
+  "main": "index.js",
+  "scripts": {
+    "watch": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SangamThapa11/project1.git"
+  },
+  "author": "Mr.Sangam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SangamThapa11/project1/issues"
+  },
+  "homepage": "https://github.com/SangamThapa11/project1#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cloudinary": "^2.6.1",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.15.1",
+    "multer": "^2.0.1",
+    "nodemailer": "^7.0.3",
+    "pg": "^8.16.2",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.7",
+    "slugify": "^1.6.6"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.3"
+  }
+}
