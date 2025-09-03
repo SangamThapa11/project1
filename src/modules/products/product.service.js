@@ -15,7 +15,6 @@ class ProductService extends BaseService {
     async transformToProductData(req) {
         try {
             let payload = req.body;
-           
             payload.slug = slugify(payload.name+"-"+randomStringGenerator(10), {
                 lower: true,
                 remove: /[*+~'"!:@]/g, 
@@ -37,7 +36,7 @@ class ProductService extends BaseService {
 
             payload.images = []; 
 
-             if(req.file) {
+             if(req.files) {
                 let imagesUploaded = req.files.map((image) => fileUploadSvc.fileUpload(image.path, 'product/'))
                 // file upload vako navako check garne 
                 let uploadStatus = await Promise.allSettled(imagesUploaded)
@@ -71,7 +70,7 @@ class ProductService extends BaseService {
 
             payload.images = [...oldProduct.images]; 
 
-             if(req.file) {
+             if(req.files) {
                 let imagesUploaded = req.files.map((image) => fileUploadSvc.fileUpload(image.path, 'product/'))
                 // file upload vako navako check garne 
                 let uploadStatus = await Promise.allSettled(imagesUploaded)

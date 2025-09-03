@@ -222,46 +222,61 @@ forgetPasswordRequest = async(req, res, next) => {
         next(exception)
     }
 }
-verifyForgetToken = async(req, res, next) => {
-    try{
-        let token = req.params.token
-        const userDetail = await userSvc.getSingleRowByFilter({
-            forgetToken: token
-        });
-        if(!userDetail) {
-            throw {
-                code: 422,
-                message: "Token not found",
-                status: "TOKEN_NOT_FOUND_ERR"
-            }
+verifyForgetToken = async (req, res, next) => {
+    try {
+      let token = req.params.token;
+      const userDetail = await userSvc.getSingleRowByFilter({
+        forgetToken: token,
+      });
+      if (!userDetail) {
+        throw {
+          code: 422,
+          message: "Token not found",
+          status: "TOKEN_NOT_FOUND_ERR",
+        };
+      }
+
+      // exipry check
+      const today = Date.now(); // 10
+      const expiryTime = userDetail.expiryTime.getTime(); // 9
+
+      if (today > expiryTime) {
+        throw {
+          code: 422,
+          message: "Token expired",
+          status: "TOKEN_EXPIRED_ERR",
+        };
+      }
+     /*
+      const userUpdate = await userSvc.updateSingleRowByFilter(
+        {
+          _id: userDetail._id,
+        },
+        {
+          forgetToken: randomStringGenerator(150),
         }
-        // expiry check
-        const today = Date.now();
-        const expiryTime = userDetail.expiryTime.getTime();
-        if(today > expiryTime) {
-            throw {
-                code: 422,
-                message: "Token expired",
-                status: "TOKEN_EXPIRED_ERR"
-            }
-        }
-        const userUpdate = await userSvc.updateSingleRowByFilter({
-            _id: userDetail._id
-        }, {
-            forgetToken: randomStringGenerator(150)
-        })
-        res.json ({
-            data: {
-                verifyToken: userUpdate.forgetToken,
-            },
-            status: "TOKEN_VERIFIED_SUCCESS",
-            message: "Token verified", 
-            options: null
-        })
-    }catch(exception){
-        next(exception)
+      ); 
+
+      res.json({
+        data: {
+          verifyToken: userUpdate.forgetToken,
+        },
+        status: "TOKEN_VERIFIED",
+        message: "Token verified",
+        options: null,
+      });   */
+      res.json({
+        data: {
+          verifyToken: token, 
+        },
+        status: "TOKEN_VERIFIED",
+        message: "Token verified",
+        options: null,
+      });
+    } catch (exception) {
+      next(exception);
     }
-}
+  };
 resetPassword = async(req, res, next) => {
     try {
         const {password, verifiedToken} = req.body; 

@@ -11,7 +11,7 @@ brandRouter.get('/:slug/detail', brandCtrl.frontBrandDetailBySlug)
 
 brandRouter.post('/', auth([UserRoles.ADMIN]), uploader().single('logo'), bodyValidator(BrandDataDTO), brandCtrl.createBrand)
 //list all brands 
-brandRouter.get('/', auth([UserRoles.ADMIN]), brandCtrl.listAllBrands) 
+brandRouter.get('/', auth([UserRoles.ADMIN,UserRoles.SELLER]), brandCtrl.listAllBrands) 
 
 // view detail of a brand
 brandRouter.get("/:id", auth([UserRoles.ADMIN]), brandCtrl.getBrandDetailById) 

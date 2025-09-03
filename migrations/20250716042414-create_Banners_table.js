@@ -1,5 +1,6 @@
 'use strict';
 const { Status } = require('../src/config/constants'); // Importing the Status enum from constants
+const sequelize = require('../src/config/sql.config');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -30,6 +31,10 @@ module.exports = {
         type: Sequelize.ENUM(Object.values(Status)),
         defaultValue: Status.INACTIVE 
       },
+        image:{
+          type: Sequelize.JSON, 
+          allowNull: false
+        },
       createdAt: {
         type: Sequelize.DATE,
         defaultValue:Sequelize.literal("CURRENT_TIMESTAMP") 

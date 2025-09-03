@@ -17,7 +17,7 @@ authRouter.get('/forget-password/:token/verify', authCtrl.verifyForgetToken)
 authRouter.patch("/reset-password",bodyValidator(ResetPasswordDTO), authCtrl.resetPassword)
 
 //private routes
-authRouter.get("/me", auth(['seller']), authCtrl.getLoggedInUserProfile);
+authRouter.get("/me", auth(), authCtrl.getLoggedInUserProfile);
 authRouter.post('/logout', auth(), authCtrl.logout)
 
 

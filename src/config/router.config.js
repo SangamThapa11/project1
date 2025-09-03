@@ -12,7 +12,7 @@ const orderDetailRouter = require("../modules/order-detail/order-detail.router")
 const orderRouter = require("../modules/order/order.router")
 const chatRouter = require("../modules/chat/chat.router")
 const couponRouter = require("../modules/coupon/coupon.router")
-
+const bannerRouter = require("../modules/banner/banner.router")
 
 
 router.use(homeRouter)
@@ -25,5 +25,6 @@ router.use('/order-detail', orderDetailRouter)
 router.use('/order', orderRouter)
 router.use('/chat', chatRouter)
 router.use('/coupon', couponRouter)
+router.use('/banner', bannerRouter)
 
 module.exports = router; 

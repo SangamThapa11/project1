@@ -1,11 +1,47 @@
 const express = require ("express")
 const router = require("./router.config")
 const { fileDelete } = require("../utilities/helpers")
+const cors = require("cors")
+const {rateLimit} = require("express-rate-limit")
+const helmet = require("helmet")
+require("./sql.config")
 require("./mongodb.config")
 
 
 const app = express()
 
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:5173',
+  // Add your production domains here
+];
+//cors 
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, Postman)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, 
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], 
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}))
+
+//rate-limit
+app.use(rateLimit({
+    windowMs: 5 * 60 * 1000,
+    limit: 30,
+    standardHeaders: 'draft-8', 
+    legacyHeaders: false,
+}))
+
+//helmet
+app.use(helmet())
 
 //body parser execute middleware loading
 app.use(express.json({

@@ -59,16 +59,16 @@ class AuthMail extends EmailService {
     </div>`
             })
 
-        }catch(exception){
+        } catch (exception) {
             throw exception
         }
     }
     async sendActivationSuccessNotification(activatedUser) {
-        try{
+        try {
             return await this.emailSend({
                 to: activatedUser.email,
                 subject: "Account activated successfully!!",
-                message:  `
+                message: `
                 <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 30px; border-radius: 10px; color: #333; max-width: 600px; margin: auto;">
                     <h2 style="color: #2c3e50;">🎉 Welcome to Our Community!</h2>
                     <p style="font-size: 16px; line-height: 1.6;">
@@ -100,46 +100,51 @@ class AuthMail extends EmailService {
             `
             })
 
-        }catch(exception){
+        } catch (exception) {
             throw exception
         }
     }
+   
     async resetPasswordRequestNotification(user) {
         try {
             return await this.emailSend({
                 to: user.email,
                 subject: "** Forget Password Request **",
-                message:`<div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e1e1e1; border-radius: 8px; overflow: hidden;">
-                    <!-- Header with Gradient Background -->
-                    <div style="background: linear-gradient(135deg, #6e8efb, #a777e3); padding: 30px 20px; text-align: center;">
-                        <h1 style="color: white; margin: 0; font-size: 24px;">Password Reset Request</h1>
+                message: `<div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e1e1e1; border-radius: 8px; overflow: hidden;">
+                <!-- Header with Gradient Background -->
+                <div style="background: linear-gradient(135deg, #6e8efb, #a777e3); padding: 30px 20px; text-align: center;">
+                    <h1 style="color: white; margin: 0; font-size: 24px;">Password Reset Request</h1>
+                </div>
+                
+                <!-- Main Content -->
+                <div style="padding: 30px 20px;">
+                    <p style="font-size: 16px; color: #333; line-height: 1.6;">Hello,</p>
+                    <p style="color: #333333; font-size: 16px; margin-bottom: 20px;">Dear ${user.name},</p>
+                    <p style="font-size: 16px; color: #333; line-height: 1.6;">We received a request to reset your password. Click the button below to set a new password:</p>
+                    
+                    <!-- Reset Button - FIXED: Use query parameter instead of path parameter -->
+                    <div style="text-align: center; margin: 30px 0;">
+                        <a href="${AppConfig.feUrl}/reset-password?token=${user.forgetToken}" style="background: linear-gradient(to right, #1a5276, #0d2b3e); color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 4px; font-weight: 600; display: inline-block; font-size: 16px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(26, 82, 118, 0.3);">
+                            Reset Your Password
+                        </a>
                     </div>
                     
-                    <!-- Main Content -->
-                    <div style="padding: 30px 20px;">
-                        <p style="font-size: 16px; color: #333; line-height: 1.6;">Hello,</p>
-                        <p style="color: #333333; font-size: 16px; margin-bottom: 20px;">Dear ${user.name},</p>
-                        <p style="font-size: 16px; color: #333; line-height: 1.6;">We received a request to reset your password. Click the button below to set a new password:</p>
-                        
-                        <!-- Reset Button -->
-                        <div style="text-align: center; margin: 30px 0;">
-                        <a href="${AppConfig.feUrl}/reset-password/${user.forgetToken}" style="background: linear-gradient(to right, #1a5276, #0d2b3e); color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 4px; font-weight: 600; display: inline-block; font-size: 16px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(26, 82, 118, 0.3);">
-                    Activate Your Account
-                </a>                        </div>
-                        
-                        <!-- Expiry Notice -->
-                        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
-                            
-                        </div>
-                        
-                        <!-- Alternative Link -->
-                        <p style="font-size: 14px; color: #666; line-height: 1.6;">
-                            If the button doesn't work, copy and paste this link into your browser:<br>
-                          
+                    <!-- Expiry Notice -->
+                    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
+                        <p style="font-size: 14px; color: #666; line-height: 1.6; margin: 0;">
+                            This link will expire in 3 hours for security reasons.
                         </p>
-                    </div>`,
+                    </div>
+                    
+                    <!-- Alternative Link -->
+                    <p style="font-size: 14px; color: #666; line-height: 1.6;">
+                        If the button doesn't work, copy and paste this link into your browser:<br>
+                        <span style="color: #1a5276; word-break: break-all;">${AppConfig.feUrl}/reset-password?token=${user.forgetToken}</span>
+                    </p>
+                </div>
+            </div>`,
             })
-        }catch(exception) {
+        } catch (exception) {
             throw exception
         }
     }
@@ -147,7 +152,7 @@ class AuthMail extends EmailService {
         try {
             return await this.emailSend({
                 to: user.email,
-                subject: "Reset Successfully",
+                subject: "Password Reset Successfully",
                 message: `<div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e1e1e1; border-radius: 8px; overflow: hidden;">
                 <!-- Header with Gradient Background -->
                 <div style="background: linear-gradient(135deg, #4CAF50, #2E7D32); padding: 30px 20px; text-align: center;">
@@ -159,36 +164,16 @@ class AuthMail extends EmailService {
                     <p style="font-size: 16px; color: #333; line-height: 1.6;">Hello ${user.name},</p>
                     <p style="font-size: 16px; color: #333; line-height: 1.6;">Your password has been successfully reset. You can now log in securely with your new credentials.</p>
                     
-                    <!-- Personalized Statements -->
-                    <p style="font-size: 16px; color: #333; line-height: 1.6;">Here’s what you should know:</p>
-                    <ul style="font-size: 16px; color: #333; line-height: 1.6; padding-left: 20px;">
-                        <li>Your account security is our top priority.</li>
-                        <li>If you did <strong>not</strong> request this change, please contact us immediately.</li>
-                        <li>For added security, avoid using easily guessable passwords.</li>
-                    </ul>
-                    
-                    <!-- Login Button -->
+                    <!-- Login Button - FIXED: Correct login URL -->
                     <div style="text-align: center; margin: 30px 0;">
-                        <a href="${AppConfig.feUrl}/Reset Password/${user.forgetToken}" style="background: linear-gradient(to right, #4CAF50, #2E7D32); color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 4px; font-weight: 600; display: inline-block; font-size: 16px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);">
+                        <a href="${AppConfig.feUrl}/login" style="background: linear-gradient(to right, #4CAF50, #2E7D32); color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 4px; font-weight: 600; display: inline-block; font-size: 16px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);">
                             Log In Now
                         </a>
                     </div>
-                    
-                    <!-- Support Note -->
-                    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
-                        <p style="font-size: 14px; color: #666; line-height: 1.6; margin: 0;">
-                            Need help? Our support team is always here for you at <a href="mailto:support@example.com" style="color: #4CAF50; text-decoration: none;">support@example.com</a>.
-                        </p>
-                    </div>
-                    
-                    <p style="font-size: 14px; color: #666; line-height: 1.6;">
-                        Stay safe,<br>
-                        The ${AppConfig.appName} Team
-                    </p>
                 </div>
             </div>`
             })
-        }catch(exception) {
+        } catch (exception) {
             throw exception
         }
     }
