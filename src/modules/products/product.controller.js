@@ -1,5 +1,5 @@
 // to store data. logic creation
-const { decodeBase64 } = require("bcryptjs");
+// Removed unused import 'decodeBase64'
 const { Status } = require("../../config/constants");
 const productSvc = require("./product.service")
 class ProductController {
@@ -214,6 +214,80 @@ frontProductDetailBySlug = async(req, res, next) => {
         next(exception)
     }
 }
+rating = async(req, res, next) => {
+   try {
+    console.log("Rating Request Body:", req.body);
+    console.log("Rating Request User:", req.user);
+    
+    const {_id} = req.user;
+    const {star, productId, comment} = req.body;
+    if (!star || !productId) {
+        throw {
+            code: 400,
+            message: "Star rating and productId are required",
+            status: "VALIDATION_ERROR"
+        }
+    }
+    if (star < 1 || star > 5) {
+        throw {
+            code: 400,
+            message: "Star rating and productId are required",
+            status: "VALIDATION_ERROR"
+        }
+    }
+    const productDetail = await productSvc.getProductDetailById(productId);
+    if(!productDetail) {
+        throw {
+            code: 400,
+            message: "Star rating and productId are required",
+            status: "VALIDATION_ERROR"
+        }
+    }
+    const result = await productSvc.addOrUpdateRating({
+        productId, 
+        userId: _id, 
+        star, 
+        comment
+    })
+    res.json({
+        data: result, 
+        message: "RAting submitted successfully",
+        status: "RATING_SUBMITTED",
+        options: null
+    });
+   } catch(exception) {
+    next(exception)
+   }
+}
+
+getProductRatings = async(req, res, next) => {
+    try {
+        const productDetail = await productSvc.getSingleRowByFilter({
+            _id: req.params.id 
+        }).populate('ratings.postedBy', ['name', 'email']);
+        
+        if(!productDetail){
+            throw {
+                code: 422,
+                message: "Product does not exist.",
+                status: "PRODUCT_NOT_FOUND_ERR"
+            };
+        }
+
+        res.json({
+            data: {
+                ratings: productDetail.ratings,
+                totalRating: productDetail.totalRating
+            },
+            message: "Product ratings fetched successfully",
+            status: "RATINGS_FETCHED",
+            options: null
+        });
+    } catch(exception) {
+        next(exception);
+    }
+}
+
 }
 const productCtrl = new ProductController()
 module.exports = productCtrl 

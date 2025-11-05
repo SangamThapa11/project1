@@ -93,7 +93,7 @@ class OrderDetailController{
                 }
             }
             if(existing.quantity === quantity || quantity === 0) {
-                existing = await orderDetailSvc.deleteSingleRowsByFilter({
+                existing = await orderDetailSvc.deleteSingleByFilter({
                     _id: existing._id
                 })
                 res.json({

@@ -19,13 +19,13 @@ class AuthMail extends EmailService {
             <p style="color: #333333; font-size: 16px; margin-bottom: 20px;">Dear ${user.name},</p>
             
             <p style="color: #333333; font-size: 16px; margin-bottom: 20px;">
-                Thank you for joining our platform! We're excited to have you as part of our community of innovators and visionaries.
+                Thank you for joining E-Pasal! We're excited to have you as part of our community of innovators and visionaries.
             </p>
             
             <div style="background-color: #f0f7ff; padding: 20px; border-left: 4px solid #1a5276; margin-bottom: 25px; border-radius: 0 4px 4px 0;">
                 <p style="color: #1a5276; font-size: 16px; margin: 0; font-style: italic;">
                     "The future belongs to those who believe in the beauty of their dreams." 
-                    <br><span style="font-weight: 600;">- Eleanor Roosevelt</span>
+                    <br><span style="font-weight: 600;">- E-Pasal</span>
                 </p>
             </div>
             

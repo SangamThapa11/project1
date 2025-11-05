@@ -12,14 +12,12 @@ const bodyValidator = (schema) => {
 
             // if data set
             await schema.validateAsync(data, {abortEarly: false})
-            next();  // controller
+            next();  
 
         }catch(exception) {
             let msgBag = {}
             if(exception.name === "ValidationError") {
                 exception.details.map((error)=> {
-                    //const field = error.path.pop();
-                    //const msg = error.message;
                     msgBag[error.path.pop()] = error.message; 
                 }) 
             }next({

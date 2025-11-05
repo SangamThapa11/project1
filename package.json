@@ -4,6 +4,7 @@
   "description": "- 3 types of packages\r     - dependency  \r     - global dependency  -g\r     - Dev dependency     -D\r         - 3 environment\r             -development\r             -testing\r                 -staging\r                 -UAT\r             -production\r ## software design pattern \r     -Singleton\r     -Factory\r     -Repository\r     - Service based\r ## MVC Pattern\r  -MVC\r    - Model-View- Controller\r    - Layer\r    - Data layer\r     -model \r    -logical layer\r      - Controller\r    - Presentation layer\r      -view\r ## Modular Pattern\r    - Featured break \r ## Service based",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "watch": "nodemon index.js"
   },
   "repository": {

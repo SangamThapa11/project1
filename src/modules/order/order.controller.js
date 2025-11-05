@@ -112,11 +112,11 @@ class OrderController {
                     Authorization: `Key ${AppConfig.khaltiSecretKey}`
                 },
                 body: JSON.stringify({
-                    return_url: `${AppConfig.feUrl}/success`,
-                    website_url: `${AppConfig.feUrl}`,
+                    return_url: `${AppConfig.feUrl1}/success`,
+                    website_url: `${AppConfig.feUrl1}`,
                     amount: order.total,
                     purchase_order_id: order.code,
-                    purchase_order_name: "BIN_Commerce-PAyment"
+                    purchase_order_name: "E-Pasal Payment"
                 })
             });
             khaltiResponse = await khaltiResponse.json()

@@ -130,6 +130,58 @@ class ProductService extends BaseService {
             throw exception
         }
     }
+
+    async addOrUpdateRating({ productId, userId, star, comment = "" }) {
+        try {
+            const product = await ProductModel.findById(productId);
+            if (!product) {
+                throw {
+                    code: 422,
+                    message: "Product not found",
+                    status: "PRODUCT_NOT_FOUND_ERR"
+                };
+            }
+             const existingRatingIndex = product.ratings.findIndex(
+                rating => rating.postedBy.toString() === userId.toString()
+            );
+
+            if (existingRatingIndex > -1) {
+                // Update existing rating
+                product.ratings[existingRatingIndex].star = star;
+                product.ratings[existingRatingIndex].comment = comment;
+            } else {
+                // Add new rating
+                product.ratings.push({
+                    star,
+                    comment,
+                    postedBy: userId
+                });
+            }
+            const totalRatings = product.ratings.length;
+            const ratingSum = product.ratings.reduce((sum, rating) => sum + rating.star, 0);
+            product.totalRating = totalRatings > 0 ? Math.round(ratingSum / totalRatings) : 0;
+
+            await product.save();
+            
+            // Populate the ratings with user data before returning
+            await product.populate('ratings.postedBy', ['name', 'email']);
+            
+            return this.getPublicProductProfile(product);
+        } catch (exception) {
+            throw exception;
+        }
+    }
+
+    async getProductById(productId) {
+        try {
+            return await ProductModel.findById(productId);
+        } catch (exception) {
+            throw exception;
+        }
+    }
+
+
+
     getPublicProductProfile(productData){
         return {
             _id: productData._id,

@@ -3,7 +3,7 @@ const auth = require("../../middleware/auth.middleware")
 const uploader = require("../../middleware/uploader.middleware")
 const bodyValidator = require("../../middleware/validator.middleware")
 const productCtrl = require("./product.controller")
-const { ProductDataDTO } = require("./product.validator")
+const { ProductDataDTO, RatingDTO } = require("./product.validator")
 const productRouter = require("express").Router()
 
 productRouter.get('/front', productCtrl.frontListAllProducts);
@@ -17,4 +17,8 @@ productRouter.get('/', auth([UserRoles.ADMIN, UserRoles.SELLER]), productCtrl.li
 productRouter.get("/:id", auth([UserRoles.ADMIN, UserRoles.SELLER]), productCtrl.getProductDetailById) 
 productRouter.put('/:id', auth([UserRoles.ADMIN, UserRoles.SELLER]), uploader().array('images'), bodyValidator(ProductDataDTO), productCtrl.updateProductById)
 productRouter.delete('/:id', auth([UserRoles.ADMIN, UserRoles.SELLER]), productCtrl.deleteProductById)
+
+productRouter.put('/rating', auth([UserRoles.ADMIN, UserRoles.SELLER, UserRoles.CUSTOMER]), bodyValidator(RatingDTO), productCtrl.rating)
+productRouter.get('/:id/ratings', productCtrl.getProductRatings)
+
 module.exports = productRouter 

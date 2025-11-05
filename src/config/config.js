@@ -32,6 +32,7 @@ const SMTPConfig = {
 const AppConfig = {
     feUrl: process.env.FRONTEND_URL,
     jwtSecret: process.env.JWT_SECRET,
+    feUrl1: process.env.FRONTEND_URL_1,
 
     khaltiSecretKey: process.env.KHALTI_SECRET_KEY,
     khaltiBaseUrl: process.env.KHALTI_BASE_URL

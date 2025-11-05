@@ -1,6 +1,27 @@
 // Database Structure for mongodb
 const mongoose = require("mongoose");
 const { Status } = require("../../config/constants");
+
+const RatingSchema = new mongoose.Schema({
+    star: {
+        type: Number,
+        required: true,
+        min: 1,
+        max: 5
+    },
+    comment: {
+        type: String,
+        default: ""
+    },
+    postedBy: { 
+        type: mongoose.Types.ObjectId, 
+        ref: "User",
+        required: true
+    }
+}, {
+    timestamps: true
+});
+
 const ProductSchema = new mongoose.Schema({
     name: {
         type: String,
