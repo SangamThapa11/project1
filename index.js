@@ -23,7 +23,8 @@ io.on('connection', (socket) => {
 }) 
 
 const PORT = 9005;
-const HOST = "127.0.0.1";
+//const HOST = "127.0.0.1";
+const HOST = "0.0.0.0";
 
 httpServer.listen(PORT, HOST, (err) => {
     if(!err) {
