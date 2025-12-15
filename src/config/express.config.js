@@ -14,6 +14,7 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
   'https://admin-erj3.onrender.com',
+  'https://guffchautarichat.onrender.com'
   // Add your production domains here
 ];
 //cors 
